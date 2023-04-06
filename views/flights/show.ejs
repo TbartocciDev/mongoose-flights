@@ -1,0 +1,33 @@
+<%- include('../partials/header') %>
+<a href="/">Home Screen</a> | <a href="/flights">Flights List</a> | <a href="flights/new">Add Flight</a>
+<h1><%= title %></h1>
+<div>Airline: <%= flight.airline %></div>
+<div>Airport: <%= flight.airport %></div>
+<div>Flight No: <%= flight.flightNo %></div>
+<div>Departs: <%= flight.departs.toLocaleDateString() %></div>
+<% if (flight.destinations.length) { %>
+    <% let totalDestinations = 0 %>
+    <% flight.destinations.forEach(function(d) { %>
+        <% totalDestinations += 1 %>
+        <div>Destination No. <%= totalDestinations %>: <%= d.airport %> <%= d.arrival.toLocaleDateString() %></div>
+    <% })%>
+<% } else { %>
+    <h3>No destination added yet</h3>
+<% } %>
+<br>
+<form method="POST" action="/flights/<%=flight._id%>/destinations">
+    <label>Destination:</label>
+    <select name="airport">
+        <option value="AUS">AUS</option>
+        <option value="DFW">DFW</option>
+        <option value="DEN" selected>DEN</option>
+        <option value="LAX">LAX</option>
+        <option value="SAN">SAN</option>
+    </select>
+    <br>
+    <label>Arrival Date:</label>
+    <input type="date" name="arrival">
+    <br>
+    <input type="submit" value="Add Destination">
+</form>
+<%- include('../partials/footer') %>
